@@ -1,0 +1,14 @@
+{
+    "name": "fabric-pet-shop",
+    "main": "server.js",
+    "dependencies": {
+        "angular": "^1.4.3",
+        "body-parser": "^1.18.2",
+        "bootstrap": "^4.1.1",
+        "ejs": "^2.5.9",
+        "express": "^4.16.3",
+        "fabric-ca-client": "^1.0.2",
+        "fabric-client": "^1.0.2",
+        "grpc": "^1.6.0"
+    }
+}
