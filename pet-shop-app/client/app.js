@@ -6,20 +6,77 @@ var app = angular.module('application', []);
 
 // Angular Controller
 app.controller('appController', function($scope, appFactory){
-	
-	$scope.pets = appFactory.queryAllPets(function(data){
-		var array = [];
-		for (var i = 0; i < data.length; i++){
-			parseInt(data[i].Key);
-			data[i].Record.Key = parseInt(data[i].Key);
-			array.push(data[i].Record);
-		}
-		array.sort(function(a, b) {
-			return parseFloat(a.Key) - parseFloat(b.Key);
+
+	$scope.pets = [];
+
+	$scope.init = function(){
+		var petsRow = document.getElementById('petsRow');
+		var petTemplate = document.getElementById('petTemplate');
+		  
+		$scope.getAllPets(function(pets) {
+			pets.forEach((pet) => {
+				var template = petTemplate.cloneNode(true);
+				template.style.display = "block";
+
+				template.querySelector('.panel-title').innerHTML = pet.name;
+				template.querySelector('img').setAttribute('src', pet.picture)
+				template.querySelector('.pet-breed').innerHTML = pet.breed;
+				template.querySelector('.pet-location').innerHTML = pet.location;
+				template.querySelector('.pet-age').innerHTML = pet.age;
+				template.querySelector('.btn-adopt').setAttribute('data-id', pet.Key)
+
+				petsRow.appendChild(template);
+
+				if (pet.owner) {
+					$scope.markAdopted(pet.Key);
+				}
+				
+			});
 		});
-		$scope.pets = array;
-	});
+		
+		$scope.bindEvents();
+	};
+
+	$scope.bindEvents = function() {
+		$(document).on('click', '.btn-adopt', $scope.handleAdopt);
+	};
+
+	$scope.handleAdopt = function() {
+		event.preventDefault();
+
+		var petId = parseInt($(event.target).data('id'));
+
+		appFactory.adopt(petId, function(data){
+			$scope.markAdopted(petId);
+		});
+	}
+
+	$scope.markAdopted = function(petId){
+		var buttons = document.querySelectorAll('button')
+		
+		buttons.forEach(function(button){
+			if (button.getAttribute("data-id") == petId) {
+				button.innerHTML = "Success";
+				button.disabled = true;
+			}
+		});
+	};
 	
+	$scope.getAllPets = function(callback){
+		appFactory.queryAllPets(function(data){
+			var array = [];
+			for (var i = 0; i < data.length; i++){
+				parseInt(data[i].Key);
+				data[i].Record.Key = parseInt(data[i].Key);
+				array.push(data[i].Record);
+			}
+			array.sort(function(a, b) {
+				return parseFloat(a.Key) - parseFloat(b.Key);
+			});
+			
+			callback(array);
+		});
+	};
 });
 
 // Angular Factory
@@ -30,6 +87,13 @@ app.factory('appFactory', function($http){
     factory.queryAllPets = function(callback){
 
     	$http.get('/pets/').success(function(output){
+			callback(output)
+		});
+	}
+
+	factory.adopt = function(petId, callback){
+
+    	$http.get('/adoptPet/'+petId).success(function(output){
 			callback(output)
 		});
 	}

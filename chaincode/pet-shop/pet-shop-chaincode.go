@@ -33,7 +33,11 @@ Structure tags are used by encoding/json library
 */
 type Pet struct {
 	Name string `json:"name"`
+	Picture string `json:"picture"`
+	Breed string `json:"breed"`
+	Location string `json:"location"`
 	Age int `json:"age"`
+	Owner string `json:"owner"`
 }
 
 /*
@@ -54,12 +58,14 @@ func (s *SmartContract) Init(APIstub shim.ChaincodeStubInterface) sc.Response {
 func (s *SmartContract) Invoke(APIstub shim.ChaincodeStubInterface) sc.Response {
 
 	// Retrieve the requested Smart Contract function and arguments
-	function, _ := APIstub.GetFunctionAndParameters()
+	function, args := APIstub.GetFunctionAndParameters()
 	// Route to the appropriate handler function to interact with the ledger
 	if function == "initLedger" {
 		return s.initLedger(APIstub)
 	} else if function == "queryAllPets" {
 		return s.queryAllPets(APIstub)
+	} else if function == "adoptPet" {
+		return s.adoptPet(APIstub, args)
 	}
 
 	return shim.Error("Invalid Smart Contract function name.")
@@ -72,8 +78,10 @@ Will add test data to our network
  */
 func (s *SmartContract) initLedger(APIstub shim.ChaincodeStubInterface) sc.Response {
 	pets := []Pet{
-		Pet{Name: "Frieda", Age: 3},
-		Pet{Name: "Gina", Age: 2},
+		Pet{Name: "Frieda", Picture: "images/scottish-terrier.jpeg", Age: 3, Breed: "Scottish Terrier", Location: "Lisco, Alabama"},
+		Pet{Name: "Gina", Picture: "images/scottish-terrier.jpeg", Age: 3,Breed: "Scottish Terrier", Location: "Tooleville, West Virginia"},
+		Pet{Name: "Collins", Picture: "images/french-bulldog.jpeg", Age: 2,Breed: "French Bulldog", Location: "Freeburn, Idaho"},
+		Pet{Name: "Melissa", Picture: "images/boxer.jpeg", Age: 2,Breed: "Boxer", Location: "Camas, Pennsylvania"},
 	}
 
 	i := 0
@@ -133,6 +141,37 @@ func (s *SmartContract) queryAllPets(APIstub shim.ChaincodeStubInterface) sc.Res
 	fmt.Printf("- queryAllPets:\n%s\n", buffer.String())
 
 	return shim.Success(buffer.Bytes())
+}
+
+/*
+ * The changeTunaHolder method *
+The data in the world state can be updated with who has possession. 
+This function takes in 2 arguments, tuna id and new holder name. 
+ */
+func (s *SmartContract) adoptPet(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
+
+	if len(args) != 2 {
+		return shim.Error("Incorrect number of arguments. Expecting 2")
+	}
+
+	petAsBytes, _ := APIstub.GetState(args[0])
+	if petAsBytes == nil {
+		return shim.Error("Could not locate pet")
+	}
+	pet := Pet{}
+
+	json.Unmarshal(petAsBytes, &pet)
+	// Normally check that the specified argument is a valid holder of tuna
+	// we are skipping this check for this example
+	pet.Owner = args[1]
+
+	petAsBytes, _ = json.Marshal(pet)
+	err := APIstub.PutState(args[0], petAsBytes)
+	if err != nil {
+		return shim.Error(fmt.Sprintf("Failed to change pet owner: %s", args[0]))
+	}
+
+	return shim.Success(nil)
 }
 
 

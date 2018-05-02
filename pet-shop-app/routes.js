@@ -6,4 +6,7 @@ module.exports = function(app){
   app.get('/pets', function(req, res){
     pets.getAllPets(req, res);
   });
+  app.get('/adoptPet/:id', function(req, res){
+    pets.adoptPet(req, res);
+  })
 }

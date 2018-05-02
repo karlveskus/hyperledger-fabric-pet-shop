@@ -12,7 +12,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
     
-    <!-- adding style here -->
+    <!-- adding style here 
     <style type="text/css">
       header{
         background-color: lightgray;
@@ -47,10 +47,43 @@
         background-color: #dddddd;
       }
     </style>
+    -->
   </head>
-  <body ng-app="application" ng-controller="appController">
+  <body ng-app="application" ng-controller="appController" ng-init="init()">
     <div id="body">
+      <div class="container">
+          <div class="row">
+            <div class="col-xs-12 col-sm-8 col-sm-push-2">
+              <h1 class="text-center">Pete's Pet Shop</h1>
+              <hr/>
+              <br/>
+            </div>
+          </div>
+    
+          <div id="petsRow" class="row">
+            <!-- PETS LOAD HERE -->
+          </div>
+        </div>
+    
+        <div id="petTemplate" style="display: none;">
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="panel panel-default panel-pet">
+              <div class="panel-heading">
+                <h3 class="panel-title">Scrappy</h3>
+              </div>
+              <div class="panel-body">
+                <img alt="140x140" data-src="holder.js/140x140" class="img-rounded img-center" style="width: 100%;" src="https://animalso.com/wp-content/uploads/2017/01/Golden-Retriever_6.jpg" data-holder-rendered="true">
+                <br/><br/>
+                <strong>Breed</strong>: <span class="pet-breed">Golden Retriever</span><br/>
+                <strong>Age</strong>: <span class="pet-age">3</span><br/>
+                <strong>Location</strong>: <span class="pet-location">Warren, MI</span><br/><br/>
+                <button class="btn btn-default btn-adopt" type="button" data-id="0">Adopt</button>
+              </div>
+            </div>
+          </div>
+        </div>
 
+      <!--
       <table align="center">
         <tr>
           <th>ID</th>
@@ -63,9 +96,13 @@
           <td>{{pet.Key}}</td>
           <td>{{pet.name}}</td>
           <td>{{pet.age}}</td>
-          <th><button>Adopt</button></th>
+          <th>
+            <button ng-if="!pet.owner" ng-click="adopt(pet.Key)">Adopt</button>
+            <span ng-if="pet.owner">Adopted</span>
+          </th>
         </tr>
       </table>
+    -->
 
     </div>
   </body>
