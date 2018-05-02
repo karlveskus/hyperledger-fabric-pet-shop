@@ -1,0 +1,4 @@
+.DS_Store
+
+# node modules
+pet-shop/node_modules/
