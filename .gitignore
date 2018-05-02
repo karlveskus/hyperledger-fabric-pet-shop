@@ -2,3 +2,7 @@
 
 # node modules
 pet-shop/node_modules/
+
+# fabric binaries and config
+bin/
+config/

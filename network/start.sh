@@ -4,6 +4,10 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 #
+# This code is based on code written by the Hyperledger Fabric community. 
+# Original code can be found here: https://github.com/hyperledger/fabric-samples/blob/release-1.1/basic-network/start.sh
+#
+#
 # Exit on first error, print all commands.
 set -ev
 
@@ -12,7 +16,7 @@ export MSYS_NO_PATHCONV=1
 
 docker-compose -f docker-compose.yml down
 
-docker-compose -f docker-compose.yml up -d ca.example.com orderer.example.com peer0.org1.example.com couchdb
+docker-compose -f docker-compose.yml up -d ca.example.com orderer.example.com peer0.org1.example.com
 
 # wait for Hyperledger Fabric to start
 # incase of errors when running later commands, issue export FABRIC_START_TIMEOUT=<larger number>
