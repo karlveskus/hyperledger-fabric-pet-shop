@@ -23,43 +23,33 @@ app.controller('appController', function($scope, appFactory){
 				template.querySelector('.pet-breed').innerHTML = pet.breed;
 				template.querySelector('.pet-location').innerHTML = pet.location;
 				template.querySelector('.pet-age').innerHTML = pet.age;
-				template.querySelector('.btn-adopt').setAttribute('data-id', pet.Key)
 
-				petsRow.appendChild(template);
+				var button = template.querySelector('.btn-adopt')
+				button.setAttribute('data-id', pet.Key)
+				button.addEventListener('click', $scope.handleAdoption);
 
 				if (pet.owner) {
-					$scope.markAdopted(pet.Key);
+					$scope.markAdopted(button);
 				}
-				
+
+				petsRow.appendChild(template);			
 			});
 		});
-		
-		$scope.bindEvents();
 	};
 
-	$scope.bindEvents = function() {
-		$(document).on('click', '.btn-adopt', $scope.handleAdopt);
-	};
-
-	$scope.handleAdopt = function() {
+	$scope.handleAdoption = function(event){
 		event.preventDefault();
 
-		var petId = parseInt($(event.target).data('id'));
+		var petId = parseInt(event.target.getAttribute('data-id'));
 
 		appFactory.adopt(petId, function(data){
-			$scope.markAdopted(petId);
+			$scope.markAdopted(event.target);
 		});
-	}
+	};
 
-	$scope.markAdopted = function(petId){
-		var buttons = document.querySelectorAll('button')
-		
-		buttons.forEach(function(button){
-			if (button.getAttribute("data-id") == petId) {
-				button.innerHTML = "Success";
-				button.disabled = true;
-			}
-		});
+	$scope.markAdopted = function(button){
+		button.innerHTML = "Success";
+		button.disabled = true;
 	};
 	
 	$scope.getAllPets = function(callback){
