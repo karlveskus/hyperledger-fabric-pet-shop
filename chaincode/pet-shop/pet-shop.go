@@ -60,9 +60,21 @@ Will add test data to our network
 func (s *SmartContract) initLedger(APIstub shim.ChaincodeStubInterface) sc.Response {
 	pets := []Pet{
 		Pet{Name: "Frieda", Picture: "images/scottish-terrier.jpeg", Age: 3, Breed: "Scottish Terrier", Location: "Lisco, Alabama"},
-		Pet{Name: "Gina", Picture: "images/scottish-terrier.jpeg", Age: 3,Breed: "Scottish Terrier", Location: "Tooleville, West Virginia"},
-		Pet{Name: "Collins", Picture: "images/french-bulldog.jpeg", Age: 2,Breed: "French Bulldog", Location: "Freeburn, Idaho"},
-		Pet{Name: "Melissa", Picture: "images/boxer.jpeg", Age: 2,Breed: "Boxer", Location: "Camas, Pennsylvania"},
+		Pet{Name: "Gina", Picture: "images/scottish-terrier.jpeg", Age: 3, Breed: "Scottish Terrier", Location: "Tooleville, West Virginia"},
+		Pet{Name: "Collins", Picture: "images/french-bulldog.jpeg", Age: 2, Breed: "French Bulldog", Location: "Freeburn, Idaho"},
+		Pet{Name: "Melissa", Picture: "images/boxer.jpeg", Age: 2, Breed: "Boxer", Location: "Camas, Pennsylvania"},
+		Pet{Name: "Jeanine", Picture: "images/french-bulldog.jpeg", Age: 2, Breed: "French Bulldog", Location: "Gerber, South Dakota"},
+		Pet{Name: "Elvia", Picture: "images/french-bulldog.jpeg", Age: 3, Breed: "French Bulldog", Location: "Innsbrook, Illinois"},
+		Pet{Name: "Latisha", Picture: "images/golden-retriever.jpeg", Age: 3, Breed: "Golden Retriever", Location: "Soudan, Louisiana"},
+		Pet{Name: "Coleman", Picture: "images/golden-retriever.jpeg", Age: 3, Breed: "Golden Retriever", Location: "Jacksonwald, Palau"},
+		Pet{Name: "Nichole", Picture: "images/french-bulldog.jpeg", Age: 2, Breed: "French Bulldog", Location: "Honolulu, Hawaii"},
+		Pet{Name: "Fran", Picture: "images/boxer.jpeg", Age: 3, Breed: "Boxer", Location: "Matheny, Utah"},
+		Pet{Name: "Leonor", Picture: "images/boxer.jpeg", Age: 2, Breed: "Boxer", Location: "Tyhee, Indiana"},
+		Pet{Name: "Dean", Picture: "images/scottish-terrier.jpeg", Age: 3, Breed: "Scottish Terrier", Location: "Windsor, Montana"},
+		Pet{Name: "Stevenson", Picture: "images/french-bulldog.jpeg", Age: 3, Breed: "French Bulldog", Location: "Kingstowne, Nevada"},
+		Pet{Name: "Kristina", Picture: "images/golden-retriever.jpeg", Age: 4, Breed: "Golden Retriever", Location: "Sultana, Massachusetts"},
+		Pet{Name: "Ethel", Picture: "images/golden-retriever.jpeg", Age: 2, Breed: "Golden Retriever", Location: "Broadlands, Oregon"},
+		Pet{Name: "Terry", Picture: "images/golden-retriever.jpeg", Age: 2, Breed: "Golden Retriever", Location: "Dawn, Wisconsin"},
 	}
 
 	i := 0

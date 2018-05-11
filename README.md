@@ -1,6 +1,7 @@
 # Hyperledger Fabric Pet Shop
 
 ## Requirements
+- MacOS / Linux / VirtualBox (required if Windows)
 - [Git](https://git-scm.com/downloads)
 - [Node](https://nodejs.org/en/)
 - [Go language](https://golang.org/dl/)
